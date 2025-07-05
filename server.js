@@ -12,7 +12,7 @@ app.use(express.json());
 app.use("/api/image", imageRoutes);
 app.use("/api/user", userRoutes);
 
-app.get("/", (_, res) => res.send("Backend running 🚀"));
+app.get("/", (_, res) => res.send("Backend API is running 🚀"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server on http://localhost:${PORT}`));

@@ -12,10 +12,10 @@ router.post("/init", async (req, res) => {
   }
 
   try {
-    // ✅ Step 1: Check if user exists
+    // Step 1: Check if user exists
     let user = await prisma.user.findUnique({ where: { email } });
 
-    // ✅ Step 2: If not, create a new user
+    // Step 2: If not, create a new user
     if (!user) {
       user = await prisma.user.create({
         data: {
@@ -33,7 +33,7 @@ router.post("/init", async (req, res) => {
         .json({ success: true, message: "User created", user });
     }
 
-    // ✅ Step 3: If already exists, return user (no change)
+    //  Step 3: If already exists, return user (no change)
     return res
       .status(200)
       .json({ success: true, message: "User already exists", user });

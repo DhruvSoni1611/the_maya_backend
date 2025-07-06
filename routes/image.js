@@ -99,11 +99,6 @@ router.post("/gen", async (req, res) => {
   const { prompt } = req.body;
 
   try {
-    if (!REPLICATE_API_TOKEN || !REPLICATE_MODEL_VERSION) {
-      return res
-        .status(500)
-        .json({ success: false, message: "Missing Replicate API env vars" });
-    }
     const replicateRes = await fetch(
       "https://api.replicate.com/v1/predictions",
       {
@@ -134,6 +129,11 @@ router.post("/gen", async (req, res) => {
     while (tries < 10) {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
+      if (!REPLICATE_API_TOKEN || !REPLICATE_MODEL_VERSION) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Missing Replicate API env vars" });
+      }
       const statusRes = await fetch(
         `https://api.replicate.com/v1/predictions/${predictionId}`,
         {

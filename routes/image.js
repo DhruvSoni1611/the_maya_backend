@@ -91,7 +91,8 @@
 
 const express = require("express");
 const router = express.Router();
-const fetch = require("node-fetch");
+const fetch = (...args) =>
+  import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 const { REPLICATE_API_TOKEN, REPLICATE_MODEL_VERSION } = process.env;
 

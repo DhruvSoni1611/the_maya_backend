@@ -99,6 +99,11 @@ router.post("/gen", async (req, res) => {
   const { prompt } = req.body;
 
   try {
+    if (!REPLICATE_API_TOKEN || !REPLICATE_MODEL_VERSION) {
+      return res
+        .status(500)
+        .json({ success: false, message: "Missing Replicate API env vars" });
+    }
     const replicateRes = await fetch(
       "https://api.replicate.com/v1/predictions",
       {

@@ -99,10 +99,18 @@ const { REPLICATE_API_TOKEN, REPLICATE_MODEL_VERSION } = process.env;
 router.post("/gen", async (req, res) => {
   const { prompt } = req.body;
 
+  console.log("💬 Received prompt:", prompt);
+
   if (!REPLICATE_API_TOKEN || !REPLICATE_MODEL_VERSION) {
     return res
       .status(500)
-      .json({ success: false, message: "Missing Replicate API env vars" });
+      .json({ success: false, message: "Missing Replicate env vars" });
+  }
+
+  if (!prompt || typeof prompt !== "string") {
+    return res
+      .status(400)
+      .json({ success: false, message: "Prompt missing or invalid" });
   }
   try {
     const replicateRes = await fetch(

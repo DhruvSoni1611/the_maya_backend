@@ -123,7 +123,13 @@ router.post("/gen", async (req, res) => {
         },
         body: JSON.stringify({
           version: REPLICATE_MODEL_VERSION,
-          input: { prompt },
+          input: {
+            prompt,
+            width: 1024,
+            height: 1024,
+            num_inference_steps: 25,
+            guidance_scale: 7.5,
+          },
         }),
       }
     );

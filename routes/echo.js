@@ -81,3 +81,5 @@ router.post("/echo", upload.single("pdf"), async (req, res) => {
     return res.status(500).json({ error: "Failed to convert PDF to audio" });
   }
 });
+
+module.exports = router;

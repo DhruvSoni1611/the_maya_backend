@@ -20,9 +20,10 @@ model User {
   tokens      Int @default(5)
   audioTokens Int @default(2)
 
-  prompts  Prompt[]
-  chats    Chat[]
-  podcasts Podcast[]
+  prompts     Prompt[]
+  chats       Chat[]
+  podcasts    Podcast[]
+  echoHistory EchoHistory[]
 }
 
 model Prompt {
@@ -52,4 +53,17 @@ model Podcast {
   voice     String?
   duration  Int?
   createdAt DateTime @default(now())
+}
+
+model EchoHistory {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  promptTitle String
+  outputUrl   String
+  voiceUsed   String
+  format      String
+  createdAt   DateTime @default(now())
+
+  @@index([userId])
 }

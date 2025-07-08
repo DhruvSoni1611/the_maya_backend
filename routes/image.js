@@ -138,6 +138,7 @@ router.post("/gen", async (req, res) => {
     const predictionId = prediction.id;
 
     if (!predictionId) {
+      console.log("💬 Failed to start prediction");
       return res
         .status(400)
         .json({ success: false, message: "Failed to start prediction" });
@@ -159,6 +160,7 @@ router.post("/gen", async (req, res) => {
       );
 
       const statusData = await statusRes.json();
+      console.log("trial number: ", tries, " & status: ", statusData.status);
 
       if (statusData.status === "succeeded") {
         imageUrl = statusData.output?.[0];

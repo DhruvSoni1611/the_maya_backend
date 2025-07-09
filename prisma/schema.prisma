@@ -46,7 +46,6 @@ model Chat {
 
 model Podcast {
   id        String   @id @default(cuid())
-  title     String // 👈 Add this line
   outputUrl String
   audioUrl  String
   pdfUrl    String

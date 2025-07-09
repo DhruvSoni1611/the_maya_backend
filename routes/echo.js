@@ -61,7 +61,7 @@ router.post("/echo", upload.single("pdf"), async (req, res) => {
 
     const newPodcast = await prisma.podcast.create({
       data: {
-        title: req.file.originalname,
+        // title: req.file.originalname,
         outputUrl: `/audio/${filename}`,
         voiceUsed: voiceId,
         format,

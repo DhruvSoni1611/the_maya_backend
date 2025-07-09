@@ -65,6 +65,7 @@ router.post("/echo", upload.single("pdf"), async (req, res) => {
         outputUrl: `/audio/${filename}`,
         voiceUsed: voiceId,
         format,
+        pdfUrl: `/uploads/${req.file.filename}`,
         user: { connect: { id: user.id } },
       },
     });

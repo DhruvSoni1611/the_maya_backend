@@ -45,25 +45,30 @@ model Chat {
 }
 
 model Podcast {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  pdfUrl    String
-  audioUrl  String
-  voice     String?
-  duration  Int?
+  id        String   @id @default(cuid())
+  title     String
+  outputUrl String
+  format    String
+  voiceUsed String
   createdAt DateTime @default(now())
+
+  // Relation to User
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  echoHistories EchoHistory[]
 }
 
 model EchoHistory {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  promptTitle String
-  outputUrl   String
-  voiceUsed   String
-  format      String
-  createdAt   DateTime @default(now())
+  id String @id @default(cuid())
 
-  @@index([userId])
+  // Relation to Podcast
+  podcastId String
+  podcast   Podcast @relation(fields: [podcastId], references: [id])
+
+  // Relation to User
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
 }

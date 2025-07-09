@@ -59,19 +59,27 @@ router.post("/echo", upload.single("pdf"), async (req, res) => {
     fs.writeFileSync(outputPath, audioBuffer);
     fs.unlinkSync(pdfPath);
 
-    // ✅ Update user tokens + log in EchoHistory table
+    const newPodcast = await prisma.podcast.create({
+      data: {
+        title: req.file.originalname,
+        outputUrl: `/audio/${filename}`,
+        voiceUsed: voiceId,
+        format,
+        user: { connect: { id: user.id } },
+      },
+    });
+
+    await prisma.echoHistory.create({
+      data: {
+        user: { connect: { id: user.id } },
+        podcast: { connect: { id: newPodcast.id } },
+      },
+    });
+
     await prisma.user.update({
       where: { id: user.id },
       data: {
         tokens: { decrement: 1 },
-        echoHistory: {
-          create: {
-            promptTitle: req.file.originalname,
-            outputUrl: `/audio/${filename}`,
-            voiceUsed: voiceId,
-            format,
-          },
-        },
       },
     });
 
